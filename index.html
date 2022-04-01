@@ -45,6 +45,17 @@
         width: 100%;
         position: fixed;
     }
+    #miniVideos {
+        margin: auto;
+        display: grid;
+        column-gap: 1vw;
+        row-gap: 1vw;
+        grid-template-columns: repeat(3, 30vw);
+        max-width: 93vw;
+    }
+    #miniVideos video {
+        width: 30vw;
+    }
     </style>
     <script>
         var videos = [
@@ -108,8 +119,8 @@
             v.style.left = left + "px"
         }
         function getVideoElement() {
-            let v = document.getElementsByTagName("video")[0]
-            //let v = document.getElementById("video")
+            //let v = document.getElementsByTagName("video")[0]
+            let v = document.getElementById("backgroundVideo")
             return v
         }
         function createVideoElement() {
@@ -135,19 +146,68 @@
             });
             return v
         }
+        function addVideoListeners() {
+            let v = getVideoElement()
+            v.onended = () => {
+                selectAndPlayVideo()
+            }
+            v.addEventListener('loadeddata', (e) => {
+                if(v.readyState >= 2){
+                    centerVideo()
+                }
+            });
+        }
+        
+        //<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/673244979?h=ca0c1fcd05&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="sun_horizontal_trim"></iframe></div><script src="https://player.vimeo.com/api/player.js">
+        
+        function getVimeoIframe(videoId) {
+            let videoLink = "https://player.vimeo.com/video/" + videoId + "?h=ca0c1fcd05&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+            let iframe = document.createElement("iframe")
+            iframe.src = videoLink
+            iframe.frameBorder = 0
+            //iframe.allow = "autoplay; fullscreen; picture-in-picture"
+            iframe.allow = "fullscreen"
+            iframe.allowFullscreen = true
+            //iframe.style = "position:absolute;top:0;left:0;width:100%;height:100%;"
+            return iframe
+        }
+        function addVideos() {
+            let videoIds = ["673244979", "673245034"]
+            let linkedVideos = document.getElementById("linkedVideos")
+            for (let i = 0; i < videoIds.length; i++) {
+                linkedVideos.appendChild(getVimeoIframe(videoIds[i]))
+            }
+        }
         window.onload = function() {
-            let v = createVideoElement()
-            document.body.appendChild(v)
+            //let v = createVideoElement()
+            //document.body.appendChild(v)
+            addVideoListeners()
             selectAndPlayVideo()
+            //addVideos()
         }
         window.onresize = function() {
             centerVideo()
         }
     </script>
+    <script src="https://player.vimeo.com/api/player.js"></script>
 </head>
 
 <body>
 <h1>LAZERPRESENT</h1>
-<div id="console"></div>
+<div id="miniVideos">
+    <video autoplay muted playsinline loop src="video/ants_horizontal_trim.mp4"></video>
+    <video autoplay muted playsinline loop src="video/bird_horizontal.mp4"></video>
+    <video autoplay muted playsinline loop src="video/bubble 2_horizontal.mp4"></video>
+    <!--video autoplay muted playsinline loop src="video/dog balloon_horizontal_crop.mp4"></video>
+    <video autoplay muted playsinline loop src="video/early morning_horizontal_trim.mp4"></video>
+    <video autoplay muted playsinline loop src="video/intercontinental_horizontal.mp4"></video>
+    <video autoplay muted playsinline loop src="video/motorbike mirror sun_horizontal_trim.mp4"></video>
+    <video autoplay muted playsinline loop src="video/newspaper berlin_horizontal_trim.mp4"></video>
+    <video autoplay muted playsinline loop src="video/newspaper handrail_horizontal.mp4"></video>
+    <video autoplay muted playsinline loop src="video/receipt_horizontal.mp4"></video>
+    <video autoplay muted playsinline loop src="video/sun_horizontal_trim.mp4"></video>
+    <video autoplay muted playsinline loop src="video/white waves_horizontal_trim.mp4"></video-->
+</div>
+<video id="backgroundVideo" autoplay muted playsinline style="position: fixed; min-width: 100%; min-height: 100%; z-index: -1; top: 0px; left: 0px;" src=""></video>
 </body>
 </html>
