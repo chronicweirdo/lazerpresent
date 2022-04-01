@@ -126,7 +126,7 @@
             v.addEventListener('loadeddata', (e) => {
                 console.log(e)
                 log("ready state=" + v.readyState + " ")
-                if(v.readyState >= 3){
+                if(v.readyState >= 2){
                     log(v.videoWidth + " " + v.videoHeight)
                     centerVideo()
                 }
