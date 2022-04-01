@@ -47,6 +47,12 @@
     }
     </style>
     <script>
+        function log(message) {
+            let console = document.getElementById("console")
+            let m = document.createElement("div")
+            m.innerHTML = message
+            console.appendChild(m)
+        }
         var videos = ["video/ants_horizontal_trim.mp4", "video/bird_horizontal.mp4"]
         function randomVideoLink() {
             return videos[Math.floor(Math.random() * videos.length)]
@@ -58,7 +64,7 @@
             while (videoLink == currentVideo) {
                 videoLink = randomVideoLink()
             }
-            console.log("playing video " + videoLink)
+            log("playing video " + videoLink)
             v.src = videoLink
             /*v.onplay = () => {
                 console.log(v.videoWidth + " " + v.videoHeight)
@@ -75,6 +81,7 @@
             return vh
         }
         function centerVideo() {
+            log("centering video")
             let v = getVideoElement()
             let width = v.videoWidth
             let height = v.videoHeight
@@ -117,7 +124,7 @@
             }
             v.addEventListener('loadeddata', (e) => {
                 if(v.readyState >= 3){
-                    console.log(v.videoWidth + " " + v.videoHeight)
+                    log(v.videoWidth + " " + v.videoHeight)
                     centerVideo()
                 }
             });
@@ -138,5 +145,6 @@
 
 <body>
 <h1>LAZERPRESENT</h1>
+<div id="console"></div>
 </body>
 </html>
