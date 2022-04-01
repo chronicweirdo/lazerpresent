@@ -53,34 +53,53 @@
             m.innerHTML = message
             console.appendChild(m)
         }
-        var videos = ["video/ants_horizontal_trim.mp4", "video/bird_horizontal.mp4",
-        "video/bubble 2_horizontal.mp4",
-        "video/dog balloon_horizontal_crop.mp4",
-        "video/early morning_horizontal_trim.mp4",
-        "video/intercontinental_horizontal.mp4",
-        "video/motorbike mirror sun_horizontal_trim.mp4",
-        "video/newspaper berlin_horizontal_trim.mp4",
-        "video/newspaper handrail_horizontal.mp4",
-        "video/receipt_horizontal.mp4",
-        "video/sun_horizontal_trim.mp4",
-        "video/white waves_horizontal_trim.mp4"]
+        var videos = [
+            "video/ants_horizontal_trim.mp4", 
+            "video/bird_horizontal.mp4",
+            "video/bubble 2_horizontal.mp4",
+            "video/dog balloon_horizontal_crop.mp4",
+            "video/early morning_horizontal_trim.mp4",
+            "video/intercontinental_horizontal.mp4",
+            "video/motorbike mirror sun_horizontal_trim.mp4",
+            "video/newspaper berlin_horizontal_trim.mp4",
+            "video/newspaper handrail_horizontal.mp4",
+            "video/receipt_horizontal.mp4",
+            "video/sun_horizontal_trim.mp4",
+            "video/white waves_horizontal_trim.mp4"
+        ]
         function randomVideoLink() {
             return videos[Math.floor(Math.random() * videos.length)]
+        }
+        function sameVideo(v1, v2) {
+            let v1d = decodeURI(v1)
+            let v2d = decodeURI(v2)
+            let s = Math.min(v1d.length, v2d.length)
+            let v1ds = v1d.substring(v1d.length - s)
+            let v2ds = v2d.substring(v2d.length - s)
+            console.log(v1ds)
+            console.log(v2ds)
+            return v1ds == v2ds
         }
         function selectAndPlayVideo() {
             let v = getVideoElement()
             let currentVideo = v.src
+            console.log("picking a video")
             var videoLink = randomVideoLink()
-            while (videoLink == currentVideo) {
+            console.log("picked video: " + videoLink)
+            console.log("current video: " + currentVideo)
+            //let retries = 0
+            while (/*retries < 10 &&*/ currentVideo.length > 0 && videos.length > 1 && sameVideo(videoLink, currentVideo)) {
+                console.log("same video chosen")
                 videoLink = randomVideoLink()
+                //retries = retries + 1
             }
-            log("playing video " + videoLink)
+            console.log("playing video " + videoLink)
             v.src = videoLink
             /*v.onplay = () => {
                 console.log(v.videoWidth + " " + v.videoHeight)
             }*/
             
-            log(v.play)
+            //log(v.play)
             v.play()
         }
         function getViewportWidth() {
