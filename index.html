@@ -105,7 +105,8 @@
             //}
         }
         function getVideoElement() {
-            let v = document.getElementsByTagName("video")[0]
+            //let v = document.getElementsByTagName("video")[0]
+            let v = document.getElementById("video")
             return v
         }
         function createVideoElement() {
@@ -139,7 +140,7 @@
             //v.play()
             let v =  createVideoElement()
             document.body.appendChild(v)
-            selectAndPlayVideo()
+            //selectAndPlayVideo()
         }
         window.onresize = function() {
             centerVideo()
@@ -150,5 +151,6 @@
 <body>
 <h1>LAZERPRESENT</h1>
 <div id="console"></div>
+<video id="video" autoplay muted style="position: fixed; min-width: 100%; min-height: 100%; z-index: -1; top: 0px; left: -397.389px;" src="video/bird_horizontal.mp4"></video>
 </body>
 </html>
