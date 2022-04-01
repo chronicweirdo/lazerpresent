@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="flaviu cacoveanu lives & works">
+
+    <title>friendsforever</title>
+
+    <style>
+    body {
+        font-size: 0.8em;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        color: #fff;
+        background-color: #222;
+        font-family: Helvetica, Arial, sans-serif;
+        overflow: hidden;
+    }
+
+    h1, p {
+        line-height: 1.3em;
+        margin: 0 auto 15px auto;
+        max-width: 1000px;
+    }
+    h1 {
+        font-size:1em;
+        text-transform: uppercase;
+        margin-bottom: 2em;
+        font-weight: normal;
+    }
+    a {
+        color: white;
+        text-decoration: none;
+    }
+    a:hover {
+        color: pink;
+    }
+    #copyright {
+        bottom: 0px;
+        width: 100%;
+        position: fixed;
+    }
+    </style>
+    <script>
+        var videos = ["bo2.webm", "bo4.webm", "bo5.webm"]
+        function randomVideoLink() {
+            return videos[Math.floor(Math.random() * videos.length)]
+        }
+        function selectAndPlayVideo() {
+            let v = getVideoElement()
+            let currentVideo = v.src
+            var videoLink = randomVideoLink()
+            while (videoLink == currentVideo) {
+                videoLink = randomVideoLink()
+            }
+            console.log("playing video " + videoLink)
+            v.src = videoLink
+            /*v.onplay = () => {
+                console.log(v.videoWidth + " " + v.videoHeight)
+            }*/
+            
+            v.play()
+        }
+        function getViewportWidth() {
+            const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+            return vw
+        }
+        function getViewportHeight() {
+            const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+            return vh
+        }
+        function centerVideo() {
+            let v = getVideoElement()
+            let width = v.videoWidth
+            let height = v.videoHeight
+            let videoIsPortrait = height > width
+            let vw = getViewportWidth()
+            let vh = getViewportHeight()
+            let screenIsPortrait = vh > vw
+
+            let zoom = Math.max(vw / width, vh / height)
+            let ratio = width / height
+            let top = (vh - zoom * height) / 2
+            let left = (vw - zoom * width) / 2
+            //console.log("top: " + top + " left: " + left)
+            v.style.top = top + "px"
+            v.style.left = left + "px"
+            //if (( videoIsPortrait || screenIsPortrait ) && !( videoIsPortrait && screenIsPortrait ) ) {
+                // screen and video have different orientations
+            //} else {
+                // screen and video have same orientation
+            //}
+        }
+        function getVideoElement() {
+            let v = document.getElementsByTagName("video")[0]
+            return v
+        }
+        function createVideoElement() {
+            let v = document.createElement("video")
+            //v.src = "bo2.webm"
+            v.type = "video/webm"
+            v.autoplay = true
+            v.muted = true
+            v.style.position = "fixed"
+            v.style.minWidth = "100%"
+            v.style.minHeight = "100%"
+            v.style.zIndex = "-1"
+            v.style.top = "0"
+            v.style.left = "0"
+            v.onended = () => {
+                selectAndPlayVideo()
+            }
+            v.addEventListener('loadeddata', (e) => {
+                if(v.readyState >= 3){
+                    console.log(v.videoWidth + " " + v.videoHeight)
+                    centerVideo()
+                }
+            });
+            return v
+        }
+        window.onload = function() {
+            //let v = document.getElementsByTagName("video")[0]
+            //v.play()
+            let v =  createVideoElement()
+            document.body.appendChild(v)
+            selectAndPlayVideo()
+        }
+        window.onresize = function() {
+            centerVideo()
+        }
+    </script>
+</head>
+
+<body>
+<h1>LAZERPRESENT</h1>
+</body>
+</html>
