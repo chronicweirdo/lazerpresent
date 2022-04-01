@@ -70,6 +70,7 @@
                 console.log(v.videoWidth + " " + v.videoHeight)
             }*/
             
+            log(v.play)
             v.play()
         }
         function getViewportWidth() {
@@ -123,6 +124,8 @@
                 selectAndPlayVideo()
             }
             v.addEventListener('loadeddata', (e) => {
+                console.log(e)
+                log("ready state=" + v.readyState + " ")
                 if(v.readyState >= 3){
                     log(v.videoWidth + " " + v.videoHeight)
                     centerVideo()
