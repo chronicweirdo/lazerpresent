@@ -47,12 +47,6 @@
     }
     </style>
     <script>
-        function log(message) {
-            let console = document.getElementById("console")
-            let m = document.createElement("div")
-            m.innerHTML = message
-            console.appendChild(m)
-        }
         var videos = [
             "video/ants_horizontal_trim.mp4", 
             "video/bird_horizontal.mp4",
@@ -76,30 +70,16 @@
             let s = Math.min(v1d.length, v2d.length)
             let v1ds = v1d.substring(v1d.length - s)
             let v2ds = v2d.substring(v2d.length - s)
-            console.log(v1ds)
-            console.log(v2ds)
             return v1ds == v2ds
         }
         function selectAndPlayVideo() {
             let v = getVideoElement()
             let currentVideo = v.src
-            console.log("picking a video")
             var videoLink = randomVideoLink()
-            console.log("picked video: " + videoLink)
-            console.log("current video: " + currentVideo)
-            //let retries = 0
-            while (/*retries < 10 &&*/ currentVideo.length > 0 && videos.length > 1 && sameVideo(videoLink, currentVideo)) {
-                console.log("same video chosen")
+            while (currentVideo.length > 0 && videos.length > 1 && sameVideo(videoLink, currentVideo)) {
                 videoLink = randomVideoLink()
-                //retries = retries + 1
             }
-            console.log("playing video " + videoLink)
             v.src = videoLink
-            /*v.onplay = () => {
-                console.log(v.videoWidth + " " + v.videoHeight)
-            }*/
-            
-            //log(v.play)
             v.play()
         }
         function getViewportWidth() {
@@ -111,7 +91,6 @@
             return vh
         }
         function centerVideo() {
-            log("centering video")
             let v = getVideoElement()
             let width = v.videoWidth
             let height = v.videoHeight
@@ -124,14 +103,9 @@
             let ratio = width / height
             let top = (vh - zoom * height) / 2
             let left = (vw - zoom * width) / 2
-            //console.log("top: " + top + " left: " + left)
+
             v.style.top = top + "px"
             v.style.left = left + "px"
-            //if (( videoIsPortrait || screenIsPortrait ) && !( videoIsPortrait && screenIsPortrait ) ) {
-                // screen and video have different orientations
-            //} else {
-                // screen and video have same orientation
-            //}
         }
         function getVideoElement() {
             let v = document.getElementsByTagName("video")[0]
@@ -145,7 +119,6 @@
             v.autoplay = true
             v.muted = true
             v.playsInline = true
-            log("muted=" + v.muted)
             v.style.position = "fixed"
             v.style.minWidth = "100%"
             v.style.minHeight = "100%"
@@ -156,19 +129,14 @@
                 selectAndPlayVideo()
             }
             v.addEventListener('loadeddata', (e) => {
-                console.log(e)
-                log("ready state=" + v.readyState + " ")
                 if(v.readyState >= 2){
-                    log(v.videoWidth + " " + v.videoHeight)
                     centerVideo()
                 }
             });
             return v
         }
         window.onload = function() {
-            //let v = document.getElementsByTagName("video")[0]
-            //v.play()
-            let v =  createVideoElement()
+            let v = createVideoElement()
             document.body.appendChild(v)
             selectAndPlayVideo()
         }
@@ -181,6 +149,5 @@
 <body>
 <h1>LAZERPRESENT</h1>
 <div id="console"></div>
-<!--video id="video" autoplay muted playsinline style="position: fixed; min-width: 100%; min-height: 100%; z-index: -1; top: 0px; left: -397.389px;" src="video/bird_horizontal.mp4"></video-->
 </body>
 </html>
