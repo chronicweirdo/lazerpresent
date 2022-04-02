@@ -42,9 +42,10 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
     var url = new URL(e.request.url)
-    console.log("handling " + url + " in service worker")
+    var urlDecoded = decodeURI(url.pathname)
+    console.log("handling " + url.pathname + "(" + urlDecoded + ") in service worker")
 
-    if (filesToCache.includes(url.pathname)) {
+    if (filesToCache.includes(urlDecoded)) {
         e.respondWith(handleWebResourceRequest(e.request))
     } else {
         e.respondWith(fetch(e.request))
