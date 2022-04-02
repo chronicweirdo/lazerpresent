@@ -45,7 +45,7 @@ self.addEventListener('fetch', e => {
     var urlDecoded = decodeURI(url.pathname)
     console.log("handling " + url.pathname + "(" + urlDecoded + ") in service worker")
 
-    if (filesToCache.includes(urlDecoded)) {
+    if (urlDecoded.startsWith("/lazerpresent/video/")) {
         e.respondWith(handleWebResourceRequest(e.request))
     } else {
         e.respondWith(fetch(e.request))
