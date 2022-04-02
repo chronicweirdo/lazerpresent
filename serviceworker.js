@@ -53,6 +53,7 @@ self.addEventListener('fetch', e => {
 })
 
 async function loadFromCache(request) {
+    console.log(request)
     let cacheUrl = request.url.pathname
     console.log("trying to get " + cacheUrl + " from cache")
     let cacheResponse = await caches.match(request)
