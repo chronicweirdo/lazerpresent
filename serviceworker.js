@@ -46,11 +46,27 @@ self.addEventListener('fetch', e => {
     console.log("handling " + url.pathname + "(" + urlDecoded + ") in service worker")
 
     if (urlDecoded.startsWith("/lazerpresent/video/")) {
-        e.respondWith(handleWebResourceRequest(e.request))
+        e.respondWith(loadFromCache(e.request))
     } else {
         e.respondWith(fetch(e.request))
     }
 })
+
+async function loadFromCache(request) {
+    let cacheUrl = request.url.pathname
+    console.log("trying to get " + cacheUrl + " from cache")
+    let cacheResponse = await caches.match(request)
+    if (cacheResponse) {
+        // always update resource in cache asynchronously
+        //updateResourceInCache(request)
+        console.log("found and returing " + cacheUrl + " from cache")
+        return cacheResponse
+    } else {
+        console.log("getting " + request.url + " from server")
+        let serverResponse = await fetch(request)
+        return serverResponse
+    }
+}
 
 async function handleWebResourceRequest(request) {
     // first try to get from cache
