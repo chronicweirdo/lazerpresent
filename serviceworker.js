@@ -31,7 +31,7 @@ self.addEventListener('install', e => {
 })
 
 function initCache() {
-    console.log("initializing cache " + CACHE_NAME)
+    //console.log("initializing cache " + CACHE_NAME)
     return caches.open(CACHE_NAME).then(cache => {
         cache.addAll(filesToCache)
     })
@@ -44,7 +44,7 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
     var url = new URL(e.request.url)
     var urlDecoded = decodeURI(url.pathname)
-    console.log("handling " + url.pathname + "(" + urlDecoded + ") in service worker")
+    //console.log("handling " + url.pathname + "(" + urlDecoded + ") in service worker")
 
     if (urlDecoded.startsWith("/lazerpresent/video/")) {
         e.respondWith(loadFromCache(e.request))
@@ -54,24 +54,24 @@ self.addEventListener('fetch', e => {
 })
 
 async function loadFromCache(request) {
-    console.log(request)
+    //console.log(request)
     var url = new URL(request.url)
     let cacheUrl = url.pathname
-    console.log("trying to get " + cacheUrl + " from cache")
+    //console.log("trying to get " + cacheUrl + " from cache")
     let cacheResponse = await caches.match(cacheUrl)
     if (cacheResponse) {
         // always update resource in cache asynchronously
         //updateResourceInCache(request)
-        console.log("found and returing " + cacheUrl + " from cache")
+        //console.log("found and returing " + cacheUrl + " from cache")
         return cacheResponse
     } else {
-        console.log("getting " + request.url + " from server")
+        //console.log("getting " + request.url + " from server")
         let serverResponse = await fetch(request)
         return serverResponse
     }
 }
 
-async function handleWebResourceRequest(request) {
+/*async function handleWebResourceRequest(request) {
     // first try to get from cache
     console.log("trying to get " + request.url + " from cache")
     let cacheResponse = await caches.match(request)
@@ -107,4 +107,4 @@ async function updateResourceInCache(request) {
         notFoundResponse.status = 404
         return notFoundResponse
     }
-}
+}*/
