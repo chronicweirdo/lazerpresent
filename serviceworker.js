@@ -31,6 +31,7 @@ self.addEventListener('install', e => {
 })
 
 function initCache() {
+    console.log("initializing cache " + CACHE_NAME)
     return caches.open(CACHE_NAME).then(cache => {
         cache.addAll(filesToCache)
     })
@@ -57,7 +58,7 @@ async function loadFromCache(request) {
     var url = new URL(request.url)
     let cacheUrl = url.pathname
     console.log("trying to get " + cacheUrl + " from cache")
-    let cacheResponse = await caches.match(request)
+    let cacheResponse = await caches.match(cacheUrl)
     if (cacheResponse) {
         // always update resource in cache asynchronously
         //updateResourceInCache(request)
